@@ -86,7 +86,7 @@ export function Body() {
             <div className={styles.divLabel}>
               <span>Concluídas</span>
               <div className={styles.divCounter}>
-                <span>0</span>
+                <span>0/0</span>
               </div>
             </div>
           </div>
