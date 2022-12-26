@@ -56,6 +56,11 @@ function Task({
     setTasks(newArrTasks);
   }
 
+  function handleDelete(id: number) {
+    const newArrTasks = tasks.filter((rowTask) => rowTask.id !== id);
+    setTasks(newArrTasks);
+  }
+
   return (
     <div className={styles.task}>
       <input value={task.id} type="checkbox" onClick={handleCheck} />
@@ -63,7 +68,7 @@ function Task({
         <span className={task.done ? styles.done : ""}>{task.description}</span>
       </div>
       <div>
-        <img src={iconTrash} />
+        <img className={styles.trashIcon} src={iconTrash} onClick={()=>handleDelete(task.id)}/>
       </div>
     </div>
   );

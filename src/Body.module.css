@@ -205,6 +205,17 @@
   order: 0;
   flex-grow: 0;
 }
+
+.trashIcon{
+  background:none;
+}
+
+.trashIcon:hover{
+  background:#d9c4af;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
 .empty span {
   width: 688px;
   height: 16px;
