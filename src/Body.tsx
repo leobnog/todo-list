@@ -2,20 +2,27 @@ import styles from "./Body.module.css";
 import iconPlus from "./assets/plus.svg";
 import iconClip from "./assets/clipboard.svg";
 import iconTrash from "./assets/trash.svg";
-import { FormEvent, useState } from "react";
+import React, { FormEvent, useState } from "react";
 
 interface TaskProps {
   id: number;
   description: string;
+  done: boolean;
 }
 
-function Tasks({ tasks }: { tasks: TaskProps[] }) {
+function Tasks({
+  tasks,
+  setTasks,
+}: {
+  tasks: TaskProps[];
+  setTasks: React.Dispatch<React.SetStateAction<TaskProps[]>>;
+}) {
   if (tasks.length === 0) return <EmptyList />;
 
   return (
     <>
       {tasks.map((task) => (
-        <Task key={task.id} {...task} />
+        <Task key={task.id} task={task} setTasks={setTasks} tasks={tasks} />
       ))}
     </>
   );
@@ -30,12 +37,30 @@ function EmptyList() {
     </div>
   );
 }
-function Task(task: TaskProps) {
+
+function Task({
+  task,
+  tasks,
+  setTasks,
+}: {
+  task: TaskProps;
+  tasks: TaskProps[];
+  setTasks: React.Dispatch<React.SetStateAction<TaskProps[]>>;
+}) {
+  function handleCheck(event: React.MouseEvent<HTMLInputElement>) {
+    const newArrTasks = tasks.map((rowTask) => {
+      if (rowTask.id === parseInt(event.currentTarget.value))
+        rowTask.done = !rowTask.done;
+      return rowTask;
+    });
+    setTasks(newArrTasks);
+  }
+
   return (
     <div className={styles.task}>
-      <input type="checkbox" />
+      <input value={task.id} type="checkbox" onClick={handleCheck} />
       <div>
-        <span>{task.description}</span>
+        <span className={task.done ? styles.done : ""}>{task.description}</span>
       </div>
       <div>
         <img src={iconTrash} />
@@ -45,14 +70,20 @@ function Task(task: TaskProps) {
 }
 
 export function Body() {
+  const [createdTasks, setCreatedTasks] = useState<number>(0);
   const [tasks, setTasks] = useState<TaskProps[]>([]);
   const [description, setDescription] = useState<string>("");
 
   function onSubmit(event: FormEvent) {
     event.preventDefault();
     const arrTasks = JSON.parse(JSON.stringify(tasks));
-    arrTasks.push({ id: Math.random(), description: description });
+    arrTasks.push({
+      id: createdTasks + 1,
+      description: description,
+      done: false,
+    });
     setTasks(arrTasks);
+    setCreatedTasks(createdTasks + 1);
     setDescription("");
   }
 
@@ -80,17 +111,19 @@ export function Body() {
             <div className={styles.divLabel}>
               <span>Tarefas criadas</span>
               <div className={styles.divCounter}>
-                <span>0</span>
+                <span>{createdTasks}</span>
               </div>
             </div>
             <div className={styles.divLabel}>
               <span>Concluídas</span>
               <div className={styles.divCounter}>
-                <span>0/0</span>
+                <span>{`${
+                  tasks.filter((rowTask) => rowTask.done === true).length
+                }/${tasks.length}`}</span>
               </div>
             </div>
           </div>
-          <Tasks tasks={tasks} />
+          <Tasks tasks={tasks} setTasks={setTasks} />
         </div>
       </form>
     </>
