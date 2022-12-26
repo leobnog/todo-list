@@ -68,7 +68,11 @@ function Task({
         <span className={task.done ? styles.done : ""}>{task.description}</span>
       </div>
       <div>
-        <img className={styles.trashIcon} src={iconTrash} onClick={()=>handleDelete(task.id)}/>
+        <img
+          className={styles.trashIcon}
+          src={iconTrash}
+          onClick={() => handleDelete(task.id)}
+        />
       </div>
     </div>
   );
@@ -81,13 +85,10 @@ export function Body() {
 
   function onSubmit(event: FormEvent) {
     event.preventDefault();
-    const arrTasks = JSON.parse(JSON.stringify(tasks));
-    arrTasks.push({
-      id: createdTasks + 1,
-      description: description,
-      done: false,
-    });
-    setTasks(arrTasks);
+    setTasks((state) => [
+      ...state,
+      { id: createdTasks + 1, description: description, done: false },
+    ]);
     setCreatedTasks(createdTasks + 1);
     setDescription("");
   }
