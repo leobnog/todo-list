@@ -1,7 +1,13 @@
 import React, { FormEvent, useState } from "react";
-import styles from "./Body.module.css";
-import iconPlus from "./assets/plus.svg";
-import { Tasks } from "./Tasks";
+import iconPlus from "../assets/plus.svg";
+import { Tasks } from "../Tasks";
+import {
+  ContainerLabels,
+  ContainerTasks,
+  DivCounter,
+  DivLabel,
+  FormCreatedTask,
+} from "./style";
 
 export interface TaskProps {
   id: number;
@@ -31,7 +37,7 @@ export function Body() {
   return (
     <>
       <form onSubmit={onSubmit}>
-        <div className={styles.formCreateTask}>
+        <FormCreatedTask>
           <input
             type="text"
             value={description}
@@ -42,26 +48,26 @@ export function Body() {
             <span>Criar</span>
             <img src={iconPlus} />
           </button>
-        </div>
-        <div className={styles.containerTasks}>
-          <div className={styles.containerLabels}>
-            <div className={styles.divLabel}>
+        </FormCreatedTask>
+        <ContainerTasks>
+          <ContainerLabels>
+            <DivLabel>
               <span>Tarefas criadas</span>
-              <div className={styles.divCounter}>
+              <DivCounter>
                 <span>{createdTasks}</span>
-              </div>
-            </div>
-            <div className={styles.divLabel}>
+              </DivCounter>
+            </DivLabel>
+            <DivLabel>
               <span>Concluídas</span>
-              <div className={styles.divCounter}>
+              <DivCounter>
                 <span>{`${
                   tasks.filter((rowTask) => rowTask.done === true).length
                 }/${tasks.length}`}</span>
-              </div>
-            </div>
-          </div>
+              </DivCounter>
+            </DivLabel>
+          </ContainerLabels>
           <Tasks tasks={tasks} setTasks={setTasks} />
-        </div>
+        </ContainerTasks>
       </form>
     </>
   );

@@ -1,7 +1,7 @@
 import React from "react";
-import iconTrash from "./assets/trash.svg";
-import { TaskProps } from "./Body";
-import styles from "./Task.module.css";
+import iconTrash from "../assets/trash.svg";
+import { TaskProps } from "../Body";
+import { Description, TaskContainer } from "./style";
 
 export function Task({
   task,
@@ -27,18 +27,17 @@ export function Task({
   }
 
   return (
-    <div className={styles.task}>
+    <TaskContainer>
       <input value={task.id} type="checkbox" onClick={handleCheck} />
       <div>
-        <span className={task.done ? styles.done : ""}>{task.description}</span>
+        <Description done={task.done}>{task.description}</Description>
       </div>
       <div>
         <img
-          className={styles.trashIcon}
           src={iconTrash}
           onClick={() => handleDelete(task.id)}
         />
       </div>
-    </div>
+    </TaskContainer>
   );
 }

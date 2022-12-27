@@ -1,15 +1,12 @@
-import React from "react";
-import iconClip from "./assets/clipboard.svg";
-import styles from "./EmptyList.module.css";
+import iconClip from "../assets/clipboard.svg";
+import { Empty } from "./style";
 
 export function EmptyList() {
-
   return (
-    <div className={styles.empty}>
+    <Empty>
       <img src={iconClip} />
       <span>Você ainda não tem tarefas cadastradas</span>
       <span>Crie tarefas e organize seus itens a fazer</span>
-    </div>
+    </Empty>
   );
-  
 }
